@@ -2,7 +2,8 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Auth } from './auth';
 
-//Solicitar um explicação do HttpInterceptorFn para maior entedimento.
+// HttpInterceptorFn intercepta toda requisição HTTP antes dela sair da aplicação, permitindo
+// inspecionar ou modificar a requisição (como adicionar o header de autenticação abaixo).
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   if (req.headers.has('Authorization')) {
     return next(req);
@@ -20,13 +21,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
     ----- req.clone({...}) -----
 
-    Requisições http no angular são imutaveis(não da para alterar diretamente), por isso fazemos uma cópia modificafa,
-    adicionando o cabeçalho novo e é essa copia que enviamos.
+    Requisições HTTP no Angular são imutáveis (não dá para alterar diretamente), por isso fazemos uma cópia modificada,
+    adicionando o cabeçalho novo, e é essa cópia que enviamos.
 
     ----- Authorization: `Basic ${credenciais}` -----
 
-    esse é o formato padão HTTP que o Stpring Security(do lado backend) epera par a auteticação Basic,
-    é assim que ele indetifica e valida o usuário em cada requisição.
+    Esse é o formato padrão HTTP que o Spring Security (do lado do backend) espera para a autenticação Basic;
+    é assim que ele identifica e valida o usuário em cada requisição.
     ----------------------*/
   if (credenciais) {
     const reqComAuth = req.clone({

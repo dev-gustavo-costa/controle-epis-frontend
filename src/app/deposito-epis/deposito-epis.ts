@@ -13,7 +13,7 @@ import { Auth } from '../auth';
   styleUrl: './deposito-epis.css',
 })
 export class DepositoEpis implements OnInit {
-  private epiService = inject(Epi); // Pega a instacia pronta no Service Epi.
+  private epiService = inject(Epi); // Pega a instância pronta do Service Epi, injetada pelo Angular.
   private authService = inject(Auth);
   private router = inject(Router);
 
@@ -24,9 +24,9 @@ export class DepositoEpis implements OnInit {
 
   /*
   ---- Partial ----
-  
-  Usamos para que quando for recebido um valor a tela vai atualizar automaticamente, 
-  sem isso não atualiza a tela devido a mudaças no padrão do angular na verção 22.
+
+  Tipamos novoEpi como Partial<EpiModel> porque o objeto começa vazio (sem todos os campos)
+  até o usuário preencher o formulário de cadastro/edição.
   */
   novoEpi: Partial<EpiModel> = {};
   private epiOriginal: EpiModel | null = null;
@@ -35,14 +35,14 @@ export class DepositoEpis implements OnInit {
   ngOnInit(): void {
     this.carregarEpi();
   }
-  //Metado para listar todos os dados da tabela na tela
+  // Método para listar todos os dados da tabela na tela.
   carregarEpi(): void {
     this.epiService.listarTodos().subscribe((dados: EpiModel[]) => {
       this.epis.set(dados);
-    }); // É literalmente se increver para receber o resultado quando ele chegar.
+    }); // É literalmente se inscrever (subscribe) para receber o resultado quando ele chegar.
   }
 
-  //Metado para buscar por um dado especifico da tabela atraves do seu nome.
+  // Método para buscar um dado específico da tabela pelo nome.
   buscar(): void {
     if (this.termoBusca.trim() === '') {
       this.carregarEpi();
@@ -54,7 +54,6 @@ export class DepositoEpis implements OnInit {
     });
   }
 
-  // Tudo da que para baixo foi modificado ou recem criado, necessario marcações.
   abrirModalCadastro(): void {
     this.modoEdicao.set(false);
     this.novoEpi = {};

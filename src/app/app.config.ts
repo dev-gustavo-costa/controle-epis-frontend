@@ -5,7 +5,7 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http'; //Aqui importamos a biblioteca que nos permite conectar com o banco de dados + backend.
 import { authInterceptor } from './auth-interceptor';
 /*------------------------ 
-  ----- procideHttpClient(...) -----
+  ----- provideHttpClient(...) -----
 
   Possibilita que a aplicação podera realizar requisições HTTP.
 

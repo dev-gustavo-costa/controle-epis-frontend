@@ -6,9 +6,11 @@ import { catchError, map, Observable, of } from 'rxjs';
 export class Auth {
   private http = inject(HttpClient);
 
-  private credenciais = signal<string | null>(localStorage.getItem('credenciais')); // Crendecias so pode recer uma string ou null.
+  private credenciais = signal<string | null>(localStorage.getItem('credenciais')); // Credenciais só pode receber uma string ou null.
 
-  logado = signal(!!localStorage.getItem('credenciais')); // Esse é o valor que o guard vai consultar para decidir se deixa passar ou redireciona pro login. ouve mudanças!!!!esplcar
+  // Esse é o valor que o guard consulta para decidir se libera o acesso ou redireciona para o login.
+  // Por ser um signal, o guard reage automaticamente sempre que ele mudar.
+  logado = signal(!!localStorage.getItem('credenciais'));
 
   /* ------------------------------
     ----- Observable<boolean> -----
@@ -17,12 +19,12 @@ export class Auth {
 
     ----- btoa -----
 
-    É uma função naiva do navegador (não do Angular) texto em base64.
+    É uma função nativa do navegador (não do Angular) que transforma texto em base64.
 
     Importante: Base64 não é criptografia - é so codificação, que pode ser revertido por qualquer um,
     ainda sera realizado no futuro a implemetação de uma criptografia adequada.
     
-    ----- .pipe(map(...), catchErro(..)) -----
+    ----- .pipe(map(...), catchError(...)) -----
 
     São operadores do RxJS(A biblioteca por tras dos Observables) que transformam o resultados:
     

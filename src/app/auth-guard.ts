@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { Auth } from './auth';
 
-// CanActivateFn -> Roda antes de qualquer roda protegida ser carreda, impossibilitando acesso sem o login.
+// CanActivateFn roda antes de qualquer rota protegida ser carregada, impedindo o acesso sem login.
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(Auth);
   const router = inject(Router);

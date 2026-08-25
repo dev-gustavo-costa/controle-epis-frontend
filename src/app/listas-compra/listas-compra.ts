@@ -98,7 +98,7 @@ export class ListasCompra implements OnInit {
     });
   }
 
-  // metados para detalhes das listas:
+  // Métodos para detalhes das listas:
   abrirModalDetalhe(lista: ListaCompraModel): void {
     this.listaCompraService.buscarPorId(lista.id).subscribe((dados) => {
       this.listaSelecionada.set(dados);

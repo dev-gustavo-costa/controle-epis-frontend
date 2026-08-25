@@ -32,7 +32,7 @@ export class ListaCompra {
     return this.http.post<ListaCompraModel>(`${this.apiUrl}/${id}/aplicar`, itensRecebidos);
   }
 
-  // ResponseType: 'blob' avisa o angular quea resposta não é um JSON, é um arquivo binário (o PDF).
+  // responseType: 'blob' avisa o Angular que a resposta não é um JSON, e sim um arquivo binário (o PDF).
   baixarPDF(id: number): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/${id}/pdf`, { responseType: 'blob' });
   }
