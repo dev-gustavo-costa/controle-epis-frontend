@@ -1,0 +1,17 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1>Controle de Epi's</h1>
+    <p>Faça lougin para continuar</p>
+
+    <form (ngSubmit)="entrar()">
+      <label>Usuário</label>
+      <input type="text" [(ngModel)]="usurario" name="usurario" required />
+      <label>Senha</label>
+      <input type="password" [(ngModel)]="senha" name="senha" required />
+      <button type="submit">Entrar</button>
+    </form>
+    @if (erro()) {
+      <p class="erro-msg">Usuário ou senha inválidos.</p>
+    }
+  </div>
+</div>

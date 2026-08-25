@@ -1,0 +1,79 @@
+<div>
+  <h1>Deposito de Epis</h1>
+  <a routerLink="/listas-compra" class="link-listas">Ir para Listas de Compras →</a>
+  <button class="botao-sair" (click)="sair()">Sair</button>
+  <button class="botao-cadastrar" (click)="abrirModalCadastro()">+ Cadastrar Epi</button>
+  <div class="barra-busca">
+    <input
+      type="text"
+      placeholder="Buscar por nome..."
+      [(ngModel)]="termoBusca"
+      (input)="buscar()"
+    />
+  </div>
+  <table>
+    <tr>
+      <th>Id</th>
+      <th>Nome</th>
+      <th>CA</th>
+      <th>Quantidade Em Estoque</th>
+      <th>Estoque Minimo Recomedado</th>
+      <th>Ações</th>
+    </tr>
+    @for (epi of epis(); track epi.id) {
+      <tr>
+        <td>{{ epi.id }}</td>
+        <td>{{ epi.nomeEpi }}</td>
+        <td>{{ epi.ca }}</td>
+        <td>{{ epi.estoque }}</td>
+        <td>{{ epi.estoqueMin }}</td>
+        <td>
+          <button class="botao-editar" (click)="abrirModalEdicao(epi)">Editar</button>
+          <button class="botao-excluir" (click)="confirmarExclusao(epi)">Excluir</button>
+        </td>
+      </tr>
+    }
+  </table>
+
+  <!-- Obs.: Provavelmente vou atualizar esse esplicação para as mudaças feitas devido a adição da capacidade de editar.
+  --------------------------
+  ---- @if (modalAberto) {...} ----
+
+  Da mesma familia do @for -> Controla se aquele bloco de HTML existe ou não na tela,
+  baseado numa variavel boleana que estara no arquivo .ts .
+
+  ---- class="modal-fundo" (click)="fecharModal" ----
+
+  Ao clicar no fundo escuricido da tela, fechar a aba de cadastar epi.
+
+  ---- class="modal-conteudo" (click)="$event.stopPropagation() ----
+
+  Impede que o click vaze pros elementos de fora. 
+  
+  --------------------------
+  -->
+  @if (modalAberto()) {
+    <div class="modal-fundo" (click)="fecharModal()">
+      <div class="modal-conteudo" (click)="$event.stopPropagation()">
+        <h2>{{ modoEdicao() ? 'Editar epi' : 'Cafastrar novo Epi' }}</h2>
+        <form (ngSubmit)="salvar()">
+          <label>Nome</label>
+          <input type="text" [(ngModel)]="novoEpi.nomeEpi" name="nomeEpi" required />
+          <label>CA</label>
+          <input type="number" [(ngModel)]="novoEpi.ca" name="ca" required />
+          <label>Estoque</label>
+          <input type="number" [(ngModel)]="novoEpi.estoque" name="estoque" required />
+          <label>Estoque Mínimo</label>
+          <input type="number" [(ngModel)]="novoEpi.estoqueMin" name="estoqueMin" required />
+          <label>Media Gasta</label>
+          <input type="number" [(ngModel)]="novoEpi.mediaGasta" name="mediaGasta" required />
+
+          <div class="modal-botoes">
+            <button type="button" (click)="fecharModal()">Cancelar</button>
+            <button type="submit">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,136 @@
+<div>
+  <a routerLink="/epis" class="link-voltar">← Voltar pro Depósito</a>
+  <h1>Listas de Compra</h1>
+  <button class="botao-cadastrar" (click)="abrirModalCriar()">+ Gerar Nova Lista</button>
+
+  <table>
+    <tr>
+      <th>Id</th>
+      <th>Data de Criação</th>
+      <th>Válida até</th>
+      <th>Status</th>
+      <th>Ações</th>
+    </tr>
+    @for (lista of listas(); track lista.id) {
+      <tr>
+        <td>{{ lista.id }}</td>
+        <td>{{ lista.dataCriacao }}</td>
+        <td>{{ lista.dataExpiracao }}</td>
+        <td>{{ lista.status }}</td>
+        <td>
+          <button type="button" class="botao-pdf" (click)="abrirModalDetalhe(lista)">
+            Ver Detalhes
+          </button>
+        </td>
+      </tr>
+    }
+  </table>
+
+  @if (modalCriarAberto()) {
+    <div class="modal-fundo" (click)="fecharModalCriar()">
+      <div class="modal-conteudo modal-largo" (click)="$event.stopImmediatePropagation()">
+        <h2>Gerar Lista de Compra</h2>
+
+        <div class="adicionar-epi-manual">
+          <select name="epiSelecionado" [(ngModel)]="epiSelecionadoId">
+            <option [ngValue]="null" disabled>Selecione um EPI para adicionar...</option>
+            @for (epi of episDisponiveis(); track epi.id) {
+              <option [ngValue]="epi.id">{{ epi.nomeEpi }} (estoque: {{ epi.estoque }})</option>
+            }
+          </select>
+          <button type="button" (click)="adicionarEpiManual()">+ Adicionar</button>
+        </div>
+
+        @if (itensParaCriar().length === 0) {
+          <p>Nenhum item na lista ainda - adicione um epi acima</p>
+        } @else {
+          <table class="tabela-itens">
+            <tr>
+              <th>EPI</th>
+              <th>CA</th>
+              <th>Estoque Atual</th>
+              <th>Quantidade</th>
+              <th></th>
+            </tr>
+            @for (item of itensParaCriar(); track item.epi.id; let i = $index) {
+              <tr>
+                <td>{{ item.epi.nomeEpi }}</td>
+                <td>{{ item.epi.ca }}</td>
+                <td>{{ item.epi.estoque }}</td>
+                <td>
+                  <input
+                    type="number"
+                    [(ngModel)]="item.quantidadeOrcada"
+                    [name]="'quantidade' + i"
+                    min="0"
+                  />
+                </td>
+                <td>
+                  <button type="button" class="botao-excluir" (click)="removerItem(i)">
+                    Remover
+                  </button>
+                </td>
+              </tr>
+            }
+          </table>
+        }
+
+        <div class="modal-botoes">
+          <button type="button" class="botao-cancelar" (click)="fecharModalCriar()">
+            Cancelar
+          </button>
+          <button type="button" class="botao-salvar" (click)="salvarLista()">Salvar</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+@if (modalDetalheAberto() && listaSelecionada()) {
+  <div class="modal-fundo" (click)="fecharModalDetalhe()">
+    <div class="modal-conteudo modal-largo" (click)="$event.stopPropagation()">
+      <h2>Lista de Compras #{{ listaSelecionada()!.id }}</h2>
+      <p>Status: {{ listaSelecionada()!.status }}</p>
+      <p>Cirada em: {{ listaSelecionada()!.dataCriacao }}</p>
+
+      <table class="tabela-itens">
+        <tr>
+          <th>EPI</th>
+          <th>CA</th>
+          <th>Qtd. Orçada</th>
+          <th>Qtd. Recebida</th>
+        </tr>
+
+        @for (item of listaSelecionada()!.itens; track item.id) {
+          <tr>
+            <td>{{ item.epi.nomeEpi }}</td>
+            <td>{{ item.epi.ca }}</td>
+            <td>{{ item.quantidadeOrcada }}</td>
+            <td>
+              @if (listaSelecionada()!.status === 'ABERTA') {
+                <input
+                  type="number"
+                  [(ngModel)]="quantidadesRecebidas[item.id]"
+                  [name]="'recebido' + item.id"
+                  min="0"
+                />
+              } @else {
+                {{ item.quantidadeRecebida ?? '-' }}
+              }
+            </td>
+          </tr>
+        }
+      </table>
+
+      <div class="modal-botoes">
+        <button type="button" class="botao-cancelar" (click)="fecharModalDetalhe()">Fechar</button>
+        <button type="button" class="botao-pdf" (click)="baixarPdf(listaSelecionada()!.id)">
+          Baixar PDF
+        </button>
+        @if (listaSelecionada()!.status === 'ABERTA') {
+          <button type="button" class="botao-aplicar" (click)="aplicarLista()">Aplicar</button>
+        }
+      </div>
+    </div>
+  </div>
+}
