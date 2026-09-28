@@ -28,7 +28,7 @@
 .login-card form {
   display: flex;
   flex-direction: column;
-  gap: 0.9;
+  gap: 0.9rem;
   text-align: left;
 }
 .login-card label {
@@ -57,7 +57,7 @@
   border-radius: 6px;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: backgraund 0.2s ease;
+  transition: background 0.2s ease;
 }
 .login-card button:hover {
   background: #1d4ed8;

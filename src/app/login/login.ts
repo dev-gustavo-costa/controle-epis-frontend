@@ -13,12 +13,12 @@ export class Login {
   private authService = inject(Auth);
   private router = inject(Router);
 
-  usurario = '';
+  usuario = '';
   senha = '';
   erro = signal(false);
 
   entrar(): void {
-    this.authService.login(this.usurario, this.senha).subscribe((sucesso) => {
+    this.authService.login(this.usuario, this.senha).subscribe((sucesso) => {
       if (sucesso) {
         this.router.navigate(['/epis']);
       } else {

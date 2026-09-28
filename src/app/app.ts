@@ -1,6 +1,5 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DepositoEpis } from './deposito-epis/deposito-epis';
 
 @Component({
   selector: 'app-root',

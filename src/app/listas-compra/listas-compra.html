@@ -1,6 +1,6 @@
 <div>
   <a routerLink="/epis" class="link-voltar">← Voltar pro Depósito</a>
-  <h1>Listas de Compra</h1>
+  <h1>Listas de Compras</h1>
   <button class="botao-cadastrar" (click)="abrirModalCriar()">+ Gerar Nova Lista</button>
 
   <table>
@@ -29,7 +29,7 @@
   @if (modalCriarAberto()) {
     <div class="modal-fundo" (click)="fecharModalCriar()">
       <div class="modal-conteudo modal-largo" (click)="$event.stopImmediatePropagation()">
-        <h2>Gerar Lista de Compra</h2>
+        <h2>Gerar Lista de Compras</h2>
 
         <div class="adicionar-epi-manual">
           <select name="epiSelecionado" [(ngModel)]="epiSelecionadoId">
@@ -42,7 +42,7 @@
         </div>
 
         @if (itensParaCriar().length === 0) {
-          <p>Nenhum item na lista ainda - adicione um epi acima</p>
+          <p>Nenhum item na lista ainda — adicione um EPI acima.</p>
         } @else {
           <table class="tabela-itens">
             <tr>
@@ -91,7 +91,7 @@
     <div class="modal-conteudo modal-largo" (click)="$event.stopPropagation()">
       <h2>Lista de Compras #{{ listaSelecionada()!.id }}</h2>
       <p>Status: {{ listaSelecionada()!.status }}</p>
-      <p>Cirada em: {{ listaSelecionada()!.dataCriacao }}</p>
+      <p>Criada em: {{ listaSelecionada()!.dataCriacao }}</p>
 
       <table class="tabela-itens">
         <tr>
